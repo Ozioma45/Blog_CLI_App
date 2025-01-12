@@ -25,7 +25,7 @@ A command-line interface (CLI) application that allows users to create, view, ed
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Ozioma45/Blog_CLI_App.git
    ```
 2. Navigate to the project directory:
    ```bash
