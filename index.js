@@ -14,9 +14,11 @@ function showMenu() {
   console.log("\nSimple Blog CLI Application");
   console.log("1. Add a new blog post");
   console.log("2. View all blog posts");
-  console.log("3. Exit");
+  console.log("3. Edit a blog post");
+  console.log("4. Delete a blog post");
+  console.log("5. Exit");
 
-  rl.question("Choose an option (1, 2, or 3): ", (choice) => {
+  rl.question("Choose an option (1, 2, 3, 4, or 5): ", (choice) => {
     switch (choice) {
       case "1":
         addPost();
@@ -25,6 +27,12 @@ function showMenu() {
         viewPosts();
         break;
       case "3":
+        editPost();
+        break;
+      case "4":
+        deletePost();
+        break;
+      case "5":
         console.log("Goodbye!");
         rl.close();
         break;
@@ -59,6 +67,63 @@ function viewPosts() {
     });
   }
   showMenu();
+}
+
+// Function to edit a post
+function editPost() {
+  if (blogPosts.length === 0) {
+    console.log("No blog posts to edit.");
+    showMenu();
+    return;
+  }
+
+  console.log("\nChoose a post to edit:");
+  blogPosts.forEach((post, index) => {
+    console.log(`${index + 1}. ${post.title}`);
+  });
+
+  rl.question("Enter the number of the post you want to edit: ", (index) => {
+    const postIndex = parseInt(index) - 1;
+    if (postIndex >= 0 && postIndex < blogPosts.length) {
+      rl.question("Enter the new title: ", (newTitle) => {
+        rl.question("Enter the new content: ", (newContent) => {
+          blogPosts[postIndex].title = newTitle;
+          blogPosts[postIndex].content = newContent;
+          console.log("Blog post updated successfully!\n");
+          showMenu();
+        });
+      });
+    } else {
+      console.log("Invalid post number. Please try again.");
+      showMenu();
+    }
+  });
+}
+
+// Function to delete a post
+function deletePost() {
+  if (blogPosts.length === 0) {
+    console.log("No blog posts to delete.");
+    showMenu();
+    return;
+  }
+
+  console.log("\nChoose a post to delete:");
+  blogPosts.forEach((post, index) => {
+    console.log(`${index + 1}. ${post.title}`);
+  });
+
+  rl.question("Enter the number of the post you want to delete: ", (index) => {
+    const postIndex = parseInt(index) - 1;
+    if (postIndex >= 0 && postIndex < blogPosts.length) {
+      blogPosts.splice(postIndex, 1);
+      console.log("Blog post deleted successfully!\n");
+      showMenu();
+    } else {
+      console.log("Invalid post number. Please try again.");
+      showMenu();
+    }
+  });
 }
 
 // Start the application
